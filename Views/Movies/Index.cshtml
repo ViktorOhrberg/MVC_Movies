@@ -1,0 +1,68 @@
+﻿@model IndexVM
+
+<h3>Movies</h3>
+<p>Get movie by id</p>
+<div id="divResult"></div>
+
+<form asp-controller="IndexD">
+    @*<label asp-for="ID"></label>*@
+    <input asp-for="ID" />
+    <input type="button" id="btnGetHTML" value="Get HTML" />
+    <input type="button" id="btnGetJSON" value="Get JSON" />
+    <br />
+    <span asp-validation-for="ID"></span>
+</form>
+
+
+@*<form>
+        <input type="text" id="txtId" value="1" />
+        <input type="button" id="btnGetHTML" value="Get HTML" />
+        <input type="button" id="btnGetJSON" value="Get JSON" />
+    </form>*@
+
+<br />
+<p>Get a number of movies</p>
+<div id="divResult2" style="background-color:yellowgreen"></div>
+
+<form>
+    <input type="button" id="btnGetJSON2" value="Get length of movielist" />
+</form>
+
+
+@section scripts
+{
+    <script>
+        $("#btnGetHTML").click(() => {
+            var id = $("#ID").val();
+            $.ajax({
+                url: "/movie-box/" + id,
+                type: "GET",
+                success: (result) => $("#divResult").html(result)
+            });
+        });
+
+        $("#btnGetJSON").click(() => {
+            var id = $("#ID").val();
+            $.ajax({
+                url: "/movie-data/" + id,
+                type: "GET",
+                success: (result) => $("#divResult").html("Title: " + result.title + " Beskrivning: " + result.message)
+            });
+        });
+
+        $("#btnGetJSON2").click(() => {
+            var quantity = $("#txtId").val();
+            $.ajax({
+                url: "/movies-data/",
+                type: "GET",
+                success: (result) => $("#divResult2").html("The total number of movies are: " + result)
+            });
+        });
+
+
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+
+}
